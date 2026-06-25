@@ -16,8 +16,12 @@ const RawEventSchema = z.object({
   pid: z.number().int().nonnegative(),
   ppid: z.number().int().nonnegative(),
   processName: z.string().min(1),
-  commandLine: z.string().optional(),
-  userId: z.string().optional(),
+  // .nullable() matters here: a real-world sensor's JSON serializer (e.g.
+  // PowerShell's ConvertTo-Json) emits explicit `null` for an absent
+  // optional field rather than omitting the key — plain .optional() only
+  // tolerates `undefined` and would reject every such event.
+  commandLine: z.string().nullable().optional().transform((v) => v ?? undefined),
+  userId: z.string().nullable().optional().transform((v) => v ?? undefined),
   eventType: z.enum([
     "process_create",
     "process_terminate",
@@ -27,9 +31,10 @@ const RawEventSchema = z.object({
     "registry_set",
     "module_load",
     "credential_access",
+    "resource_sample",
   ]),
   timestamp: z.number().int().positive(),
-  details: z.record(z.string(), z.unknown()).default({}),
+  details: z.record(z.string(), z.unknown()).nullable().optional().transform((v) => v ?? {}),
 });
 
 export class IngestionError extends Error {

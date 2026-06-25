@@ -151,6 +151,13 @@ export function extractFeatures(events: NormalizedEvent[]): ChunkFeatures {
   for (let i = 1; i < events.length; i++) gapSum += events[i].timestamp - events[i - 1].timestamp;
   const avgInterEventGapMs = events.length > 1 ? gapSum / (events.length - 1) : 0;
 
+  const samples = events.filter((e) => e.eventType === "resource_sample");
+  const cpuValues = samples.map((e) => Number(e.details["cpuPercent"] ?? 0));
+  const wsValues = samples.map((e) => Number(e.details["workingSetBytes"] ?? 0) / (1024 * 1024));
+  const pbValues = samples.map((e) => Number(e.details["privateBytesBytes"] ?? 0) / (1024 * 1024));
+  const avg = (arr: number[]) => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0);
+  const max = (arr: number[]) => (arr.length ? Math.max(...arr) : 0);
+
   return {
     eventCount: events.length,
     processCreateCount: count("process_create"),
@@ -165,5 +172,11 @@ export function extractFeatures(events: NormalizedEvent[]): ChunkFeatures {
     childProcessCount: count("process_create"),
     hasEncodedCommandLine: hasEncoded ? 1 : 0,
     avgInterEventGapMs,
+    resourceSampleCount: samples.length,
+    avgCpuPercent: Number(avg(cpuValues).toFixed(2)),
+    maxCpuPercent: Number(max(cpuValues).toFixed(2)),
+    avgWorkingSetMb: Number(avg(wsValues).toFixed(2)),
+    maxWorkingSetMb: Number(max(wsValues).toFixed(2)),
+    maxPrivateBytesMb: Number(max(pbValues).toFixed(2)),
   };
 }

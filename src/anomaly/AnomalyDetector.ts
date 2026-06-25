@@ -17,7 +17,15 @@ const SCORED_FEATURES: (keyof ChunkFeatures)[] = [
   "uniqueNetworkDestinations",
   "uniqueFilesTouched",
   "childProcessCount",
+  "avgCpuPercent",
+  "maxWorkingSetMb",
 ];
+
+// Resource features only mean something when the chunk actually contains
+// resource_sample events — a window with zero samples isn't "0% CPU", it's
+// "no reading", and folding that fake zero into the baseline would corrupt
+// it for hosts where the collector samples sparsely or not at all.
+const RESOURCE_FEATURES = new Set<keyof ChunkFeatures>(["avgCpuPercent", "maxCpuPercent", "avgWorkingSetMb", "maxWorkingSetMb", "maxPrivateBytesMb"]);
 
 const Z_SCORE_THRESHOLD = 3.0;
 const MIN_SAMPLES_BEFORE_SCORING = 8; // don't flag anomalies until baseline is meaningful
@@ -64,6 +72,10 @@ export class AnomalyDetector {
     const findings: AnomalyFinding[] = [];
 
     for (const feature of SCORED_FEATURES) {
+      if (RESOURCE_FEATURES.has(feature) && chunk.features.resourceSampleCount === 0) {
+        continue; // no reading this window — not a real zero, skip entirely
+      }
+
       const stat = stats.get(feature) ?? emptyStat();
       const observed = chunk.features[feature];
       const std = stdOf(stat);

@@ -28,7 +28,16 @@ for (let i = 0; i < 10; i++) {
   const pid = 8000 + i;
   const base = T0 + i * 90_000;
   events.push(
-    evt({ hostId: HOST, pid, ppid: 4, processName: "svchost.exe", eventType: "process_create", timestamp: base, details: {} }),
+    evt({
+      hostId: HOST, pid, ppid: 4, processName: "svchost.exe", eventType: "process_create", timestamp: base,
+      details: { companyName: "Microsoft Corporation", description: "Host Process for Windows Services" },
+    }),
+  );
+  events.push(
+    evt({
+      hostId: HOST, pid, ppid: 4, processName: "svchost.exe", eventType: "resource_sample",
+      timestamp: base + 1_500, details: { cpuPercent: 1 + (i % 3), workingSetBytes: 18 * 1024 * 1024, privateBytesBytes: 12 * 1024 * 1024 },
+    }),
   );
   events.push(
     evt({
@@ -117,6 +126,17 @@ for (let i = 0; i < 10; i++) {
       timestamp: A0 + 43_000, details: { target: "lsass.exe" },
     }),
   );
+
+  // Resource samples — no company name (unsigned-looking) + sustained high CPU (cryptominer-ish pattern).
+  for (let i = 0; i < 4; i++) {
+    events.push(
+      evt({
+        hostId: HOST, pid: 302, ppid: 301, processName: "powershell.exe", eventType: "resource_sample",
+        timestamp: A0 + 5_000 + i * 8_000,
+        details: { cpuPercent: 72 + i * 2, workingSetBytes: (180 + i * 30) * 1024 * 1024, privateBytesBytes: (150 + i * 25) * 1024 * 1024 },
+      }),
+    );
+  }
 
   // Mass file write — ransomware staging pattern, 30 distinct files.
   for (let i = 0; i < 30; i++) {

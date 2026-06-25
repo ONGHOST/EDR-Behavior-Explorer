@@ -8,12 +8,28 @@
 
 import type { NormalizedEvent } from "../types.js";
 
+function applyMetadata(node: ProcessNode, details: Record<string, unknown>): void {
+  if (typeof details["companyName"] === "string" && details["companyName"]) node.companyName = details["companyName"];
+  if (typeof details["description"] === "string" && details["description"]) node.description = details["description"];
+  if (typeof details["executablePath"] === "string" && details["executablePath"]) {
+    node.executablePath = details["executablePath"];
+  }
+}
+
 export interface ProcessNode {
   hostId: string;
   pid: number;
   ppid: number;
   processName: string;
   commandLine?: string;
+  companyName?: string;
+  description?: string;
+  executablePath?: string;
+  /** Most recent resource_sample reading, if the collector reports them. */
+  lastCpuPercent?: number;
+  lastWorkingSetBytes?: number;
+  lastPrivateBytesBytes?: number;
+  lastSampleAt?: number;
   firstSeen: number;
   lastSeen: number;
   terminatedAt?: number;
@@ -46,6 +62,8 @@ export class ProcessGraph {
         children: new Set(),
       };
       node.lastSeen = event.timestamp;
+      node.commandLine = node.commandLine ?? event.commandLine;
+      applyMetadata(node, event.details);
       tree.set(event.pid, node);
 
       const parent = tree.get(event.ppid);
@@ -71,6 +89,16 @@ export class ProcessGraph {
       children: new Set(),
     };
     node.lastSeen = event.timestamp;
+
+    if (event.eventType === "resource_sample") {
+      const { cpuPercent, workingSetBytes, privateBytesBytes } = event.details as Record<string, unknown>;
+      if (typeof cpuPercent === "number") node.lastCpuPercent = cpuPercent;
+      if (typeof workingSetBytes === "number") node.lastWorkingSetBytes = workingSetBytes;
+      if (typeof privateBytesBytes === "number") node.lastPrivateBytesBytes = privateBytesBytes;
+      node.lastSampleAt = event.timestamp;
+      applyMetadata(node, event.details);
+    }
+
     tree.set(event.pid, node);
   }
 

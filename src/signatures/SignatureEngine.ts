@@ -92,6 +92,17 @@ export const SIGNATURES: Signature[] = [
       return lower.slice(lolbinIdx + 1).some((p) => SHELLS.includes(p));
     },
   },
+  {
+    id: "SIG-007",
+    name: "Unsigned/unattributed binary with sustained high CPU",
+    severity: "medium",
+    weight: 15,
+    description: "Process has no resolvable company name (often unsigned or stripped) and is sustaining high CPU — a common cryptominer/loader pattern, though plenty of legitimate dev tools also lack a company name, so treat as a prioritization signal, not a verdict.",
+    match: ({ chunk }) => {
+      const hasCompany = chunk.events.some((e) => typeof e.details["companyName"] === "string" && e.details["companyName"]);
+      return !hasCompany && chunk.features.resourceSampleCount > 0 && chunk.features.avgCpuPercent >= 60;
+    },
+  },
 ];
 
 export function runSignatures(ctx: SignatureContext, signatures: Signature[] = SIGNATURES): SignatureHit[] {
