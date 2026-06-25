@@ -1,0 +1,132 @@
+.det-table {
+  font-size: 12px;
+}
+
+.det-table thead th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: var(--sp-3) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  background: var(--bg-panel);
+}
+
+.det-table tbody td {
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  color: var(--text-secondary);
+}
+
+.det-table__row {
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.det-table__row:hover {
+  background: var(--bg-panel-hover);
+}
+
+.det-table__row--open {
+  background: var(--bg-panel-hover);
+}
+
+.det-table__chevron {
+  color: var(--text-tertiary);
+  width: 16px;
+}
+
+.det-table__pid {
+  color: var(--text-tertiary);
+  font-size: 10px;
+  margin-top: 2px;
+}
+
+.det-table__lineage {
+  color: var(--text-primary);
+  max-width: 320px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.det-table__window,
+.det-table__relative {
+  white-space: nowrap;
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.det-table__detail-row td {
+  background: var(--bg-inset);
+  padding: 0;
+}
+
+.det-detail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5);
+}
+
+.det-detail__group ul {
+  list-style: none;
+  margin: var(--sp-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.det-detail__group li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.det-detail__group li strong {
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.det-detail__group li p {
+  flex-basis: 100%;
+  margin: 2px 0 0;
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.det-detail__id,
+.det-detail__kind {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.det-detail__weight {
+  margin-left: auto;
+  color: var(--sev-high);
+  font-size: 11px;
+}
+
+.det-detail__lineage {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.det-detail__arrow {
+  color: var(--text-tertiary);
+  margin: 0 6px;
+}
+
+.det-detail__leaf {
+  color: var(--sev-high);
+  font-weight: 600;
+}

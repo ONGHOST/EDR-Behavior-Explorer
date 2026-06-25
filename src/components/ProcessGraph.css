@@ -1,0 +1,203 @@
+.pg {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: var(--sp-4);
+  height: 560px;
+}
+
+.pg__canvas-wrap {
+  overflow: auto;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.pg__svg {
+  display: block;
+}
+
+/* Edges — thin traces by default, only the path into a flagged node gets color + motion */
+.pg-edge {
+  stroke: var(--trace-dim);
+  stroke-width: 1.5;
+}
+
+.pg-edge--low {
+  stroke: var(--sev-low);
+  stroke-width: 1.5;
+}
+
+.pg-edge--medium {
+  stroke: var(--sev-medium);
+  stroke-width: 1.75;
+}
+
+.pg-edge--high {
+  stroke: var(--sev-high);
+  stroke-width: 2;
+}
+
+.pg-edge--critical {
+  stroke: var(--sev-critical);
+  stroke-width: 2.25;
+  stroke-dasharray: 5 4;
+  animation: pg-flow 0.9s linear infinite;
+}
+
+@keyframes pg-flow {
+  to {
+    stroke-dashoffset: -9;
+  }
+}
+
+.pg-node {
+  cursor: pointer;
+}
+
+.pg-node__rect {
+  fill: var(--bg-panel);
+  stroke: var(--border-strong);
+  stroke-width: 1.25;
+  transition: stroke 0.15s, fill 0.15s;
+}
+
+.pg-node:hover .pg-node__rect {
+  fill: var(--bg-panel-hover);
+}
+
+.pg-node__name {
+  font-family: var(--font-display);
+  font-size: 11.5px;
+  font-weight: 600;
+  fill: var(--text-primary);
+}
+
+.pg-node__pid {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  fill: var(--text-tertiary);
+}
+
+.pg-node--critical .pg-node__rect {
+  stroke: var(--sev-critical);
+  stroke-width: 2;
+  filter: drop-shadow(0 0 5px rgba(255, 59, 92, 0.55));
+}
+
+.pg-node--high .pg-node__rect {
+  stroke: var(--sev-high);
+  stroke-width: 1.75;
+  filter: drop-shadow(0 0 4px rgba(255, 145, 66, 0.4));
+}
+
+.pg-node--medium .pg-node__rect {
+  stroke: var(--sev-medium);
+  stroke-width: 1.5;
+}
+
+.pg-node--low .pg-node__rect {
+  stroke: var(--sev-low);
+  stroke-width: 1.5;
+}
+
+.pg-node--selected .pg-node__rect {
+  stroke: var(--accent);
+  stroke-width: 2.25;
+}
+
+.pg__detail {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.pg__detail-empty p {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.pg__legend {
+  margin-top: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pg__legend-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.pg__legend-line {
+  width: 14px;
+  height: 1.5px;
+  background: var(--trace-dim);
+}
+
+.pg__detail-name {
+  font-size: 16px;
+  margin: 2px 0 var(--sp-2);
+}
+
+.pg__fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 4px var(--sp-3);
+  margin: var(--sp-2) 0 var(--sp-4);
+  font-size: 11.5px;
+}
+
+.pg__fields dt {
+  color: var(--text-tertiary);
+}
+
+.pg__fields dd {
+  margin: 0;
+  color: var(--text-primary);
+  word-break: break-all;
+}
+
+.pg__cmdline {
+  font-size: 10.5px;
+  line-height: 1.4;
+}
+
+.pg__lineage {
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: var(--sp-4);
+  line-height: 1.6;
+}
+
+.pg__no-det {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.pg__det-list {
+  list-style: none;
+  margin: var(--sp-2) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pg__det-list li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+}

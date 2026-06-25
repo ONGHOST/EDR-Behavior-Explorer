@@ -1,0 +1,129 @@
+.audit-status {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+
+.audit-status__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.audit-status--ok {
+  background: var(--sev-low-soft);
+  border-color: rgba(63, 217, 160, 0.3);
+}
+.audit-status--ok .audit-status__icon {
+  background: var(--sev-low);
+  color: #06251a;
+}
+
+.audit-status--broken {
+  background: var(--sev-critical-soft);
+  border-color: rgba(255, 59, 92, 0.35);
+}
+.audit-status--broken .audit-status__icon {
+  background: var(--sev-critical);
+  color: #2a0712;
+}
+
+.audit-status--pending {
+  color: var(--text-tertiary);
+  font-size: 12px;
+  padding: var(--sp-4);
+}
+
+.audit-status__title {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.audit-status__sub {
+  font-size: 11.5px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.audit-status__btn {
+  margin-left: auto;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-strong);
+  color: var(--text-primary);
+  font-size: 11px;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+
+.audit-status__btn:hover {
+  background: var(--bg-panel-hover);
+}
+
+.audit-table {
+  font-size: 12px;
+}
+
+.audit-table thead th {
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.audit-table td {
+  padding: var(--sp-2) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.audit-table__hash {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.audit-kind {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.audit-kind--detection {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.audit-kind--detection_suppressed_duplicate {
+  background: var(--bg-panel-hover);
+  color: var(--text-tertiary);
+}
+
+.audit-kind--ingestion_rejected {
+  background: var(--sev-medium-soft);
+  color: var(--sev-medium);
+}
+
+.audit-kind--pipeline_error {
+  background: var(--sev-critical-soft);
+  color: var(--sev-critical);
+}
+
+.audit-kind--config_change {
+  background: var(--sev-low-soft);
+  color: var(--sev-low);
+}

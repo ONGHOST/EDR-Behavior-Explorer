@@ -1,0 +1,68 @@
+/* ============================================================================
+   Design tokens — EDR Behavior Explorer
+   Direction: dark operations console for SOC analysts. Severity is the most
+   important data dimension in this product, so it gets its own named ramp
+   rather than reusing generic red/orange/yellow. A muted cyan "trace" color
+   is reserved exclusively for the process-graph signature element.
+   ============================================================================ */
+
+:root {
+  /* Surface */
+  --bg: #0a0d12;
+  --bg-panel: #12161d;
+  --bg-panel-hover: #161b24;
+  --bg-inset: #0d1117;
+  --border: #232a36;
+  --border-strong: #313b4a;
+
+  /* Text */
+  --text-primary: #e7ebf3;
+  --text-secondary: #8a93a6;
+  --text-tertiary: #5c6577;
+
+  /* Accent / interactive */
+  --accent: #4f8cff;
+  --accent-dim: #1f3a6e;
+  --accent-soft: rgba(79, 140, 255, 0.12);
+
+  /* Severity ramp — the primary data-encoding color channel in this product */
+  --sev-critical: #ff3b5c;
+  --sev-critical-soft: rgba(255, 59, 92, 0.14);
+  --sev-high: #ff9142;
+  --sev-high-soft: rgba(255, 145, 66, 0.14);
+  --sev-medium: #f0c84b;
+  --sev-medium-soft: rgba(240, 200, 75, 0.14);
+  --sev-low: #3fd9a0;
+  --sev-low-soft: rgba(63, 217, 160, 0.14);
+
+  /* Reserved for the process-graph "circuit trace" signature element only */
+  --trace: #7cffcb;
+  --trace-dim: #1d4d3f;
+
+  /* Type */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Spacing scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  --radius: 6px;
+  --radius-sm: 4px;
+
+  color-scheme: dark;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
