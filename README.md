@@ -4,7 +4,7 @@ A Grafana-style operations console for the `edr-behavior-engine` backend.
 Dark SOC theme, severity-driven color coding, and a process graph rendered
 as a custom "circuit trace" diagram rather than a generic force layout.
 <img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/da76caa5-4a6c-4114-8d5a-6b70be1d2f9f" />
-
+https://www.youtube.com/watch?v=qL2Om9l4gpU&t=12s
 ## Quick start
 
 This expects the backend (`edr-behavior-engine`) running on `:8787`.
